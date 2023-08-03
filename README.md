@@ -11,6 +11,7 @@ Specifically, I will:
   - a second question that is shown to all participants, no matter the group
 
 After setting up the survey:
+
 1. answer the survey. Enter text to each of the questions. 6 responses, hopefully this means 3 / condition
 2. download the data using the default settings in qualtrics
 3. change one response in the browser (Data & Analysis tab)
