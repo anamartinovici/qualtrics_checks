@@ -84,5 +84,81 @@ anti_join(data_3,
 
 ```
 
+After adding embedded data
+
+```{r}
+
+data_4 <- qualtRics::read_survey(here::here("data_export",
+							  "qualtrics_checks_August+3,+2023_11.40.csv"))
+data_5 <- qualtRics::read_survey(here::here("data_export",
+							  "qualtrics_checks_August+3,+2023_11.41.csv"))
+
+data_4_col_info <- attr(data_4, "column_map")
+
+anti_join(data_4,
+	    data_5,
+	    by = colnames(data_4))
+
+anti_join(data_5,
+	    data_4,
+	    by = colnames(data_4))
+
+
+data_4 %>%
+	filter(!is.na(Q_R)) %>%
+	select(StartDate,
+		 EndDate,
+		 `Duration (in seconds)`,
+		 RecordedDate,
+		 ResponseId,
+		 Q_R,
+		 A_text,
+		 B_text,
+		 ALL_text,
+		 Q_R_DEL) %>%
+	View()
+
+
+data_4 %>%
+	filter(!is.na(Q_R)) %>%
+	select(StartDate,
+		 EndDate,
+		 `Duration (in seconds)`,
+		 RecordedDate,
+		 ResponseId,
+		 Q_R) %>%
+	inner_join(data_1,
+		     by = c("Q_R" = "ResponseId")) %>%
+	View()
+
+```
+
+# Conclusion
+
+In order to detect if responses were changed, we need to do 2 things:
+
+1. export data twice, with and without selecting "exclude survey response edits"
+
+By comparing these two data exports, we can figure out which fields, if any were manually changed in the browser. This is the equivalent of finding the grey triangle (notch), but much faster and without the risks involved by human-performed visual search.
+
+2. add embedded data fields and check their values. Specifically: `Q_R`, `Q_R_DEL`, and `Q_URL`. 
+
+If any if the responses were retaken, then those responses will have `Q_R_DEL=1`, a value for `Q_R` (the old `ResponseId`), and the `Q_URL` will indicate that the response was retaken (it is different from the other ones and includes embeded fields in the URL)
+
+```{r}
+
+data_4 %>%
+	select(A_text,
+		 B_text,
+		 ALL_text,
+		 ResponseId,
+		 Q_R,
+		 Q_R_DEL,
+		 Q_URL) %>%
+	View()
+
+```
+
+	
 
 
