@@ -19,10 +19,10 @@ To be able to perform 1 and 2, we need access to the Qualtrics survey (add as co
 
 Specifically, I will:
 
-- create a simple Qualtrics survey:
+- create a simple Qualtrics survey (2 questions):
+  - one question that is shown to all participants, no matter the group
   - two conditions (A and B) with random assignment
   - within each condition, one question that is shown only to that group
-  - a second question that is shown to all participants, no matter the group
 
 After setting up the survey:
 
